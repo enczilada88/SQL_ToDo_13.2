@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body style="background-color:rgb(250, 246, 246);"></body>
+<head>
+    <meta charset="UTF-8">
+    <title>To create and see ToDo list</title>
+    <style>
+        table {border: 1px solid navy;}
+         th, tr, td {border: 1px solid blue;}
+    
+
+    </style>
+</head>
+
+<h2>&#128077; &#128078; ToDo list </h2>
+
+<table>
+    <thead>
+    <th>nr</th>
+    <th>title</th>
+    <th>description</th>
+    <th>status</th>
+    </thead>
+
+    <tbody>
+    {% for todo in todos %}
+    <tr>
+        {% for details in todo %}
+        <td>{{ details }}</td>
+        {% endfor %}
+        {% set id, title, description, done = todo %}
+        <td><a href="/todos/{{ id }}">Edit</a></td>
+        <td><a href="/todos/delete/{{ id }}">Delete</a></td>
+    </tr>
+ 
+    </tbody>
+    {% endfor %}
+</table>
+<div>
+    <h2> &#10133; Add new task: </h2>
+    <form method="POST" action="/todos/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
